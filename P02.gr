@@ -1,0 +1,12 @@
+import List
+import Maybe
+
+penultimate: forall {a: Type} . (List a) [0..1] -> Maybe a
+penultimate [Empty] = Nothing;
+penultimate [Next _ Empty] = Nothing;
+penultimate [Next x (Next _ Empty)] = Just x;
+penultimate [Next _ xs] = penultimate [xs]
+
+main : Maybe Int
+main = penultimate [Next 1 (Next 2 Empty)]
+-- Just 1

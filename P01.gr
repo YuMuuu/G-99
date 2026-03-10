@@ -1,0 +1,11 @@
+import List
+import Maybe
+
+my_last : forall {a : Type} . (List a) [0..1] -> Maybe a
+my_last [Empty] = Nothing;
+my_last [Next x Empty] = Just x;
+my_last [Next _ xs] = my_last [xs]
+
+main : Maybe Int
+main = my_last [Next 1 (Next 2 Empty)]
+-- Just 2
