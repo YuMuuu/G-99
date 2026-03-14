@@ -1,0 +1,19 @@
+import List
+
+flatten :  forall {a : Type} . List (List a) -> List a
+flatten = join_list
+
+x : List (List Int)
+x =
+  Next (Next 1 (Next 1 Empty))
+    (Next (Next 2 Empty)
+      (Next (Next 3 (Next 5 (Next 8 Empty)))
+        Empty))
+-- これ正確には原題だと List (List Int | Int) だから厳密には違うのかも？        
+
+main : List Int
+main = flatten x
+-- -> Next 1 (Next 1 (Next 2 (Next 3 (Next 5 (Next 8 Empty)))))
+
+
+-- 違うみたい？　https://github.com/granule-project/granule/blob/main/work-in-progress/flattenLevel.gr
