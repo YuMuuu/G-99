@@ -1,0 +1,13 @@
+import List
+
+length : forall {a : Type} . List (a [0]) -> Int
+length xs =
+  case xs of
+    Empty         -> 0;
+    (Next [_] xs) -> 1 + length xs
+-- Listの要素へのアクセスが0回 = grade 0    
+
+main : Int
+main =
+  length (Next [1] (Next [1] (Next [2] (Next [3] (Next [5] (Next [8] Empty))))))
+-- => 6

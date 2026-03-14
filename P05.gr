@@ -1,0 +1,13 @@
+import List
+
+reverse : forall {a : Type} . List (a [1]) -> List a
+reverse xs = 
+  case xs of
+    Empty       -> Empty;
+    (Next [x] xs) -> append_list (reverse xs) ((Next x Empty))
+
+
+main : List Int
+main =
+  reverse (Next [1] (Next [1] (Next [2] (Next [3] (Next [5] (Next [8] Empty))))))
+-- => Next 8 (Next 5 (Next 3 (Next 2 (Next 1 (Next 1 Empty)))))

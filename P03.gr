@@ -1,24 +1,11 @@
 import List
 import Maybe
+import Nat
 
-data Index = Zero | Succ Index
-
-nth : forall {a : Type} . (List a) [0..1] -> Index [0..1] -> Maybe a
+nth : forall {a : Type, n : Nat} . (List a) [0..1] -> (N n) [0..1] -> Maybe a
 nth [Empty] [_] = Nothing;
-nth [Next x _] [Zero] = Just x;
-nth [Next _ xs] [Succ k] = nth [xs] [k]
+nth [Next x _] [Z] = Just x;
+nth [Next _ xs] [S k] = nth [xs] [k]
 
 main : Maybe Int
-main = nth [Next 1 (Next 2 (Next 3 (Next 4 Empty)))] [Succ (Succ Zero)]
-
--- import List
--- import Maybe
--- import Nat
--- 
--- nth : forall {a : Type, n : Nat} . (List a) [0..1] -> (N n) [0..1] -> Maybe a
--- nth [Empty] [_] = Nothing;
--- nth [Next x _] [Z] = Just x;
--- nth [Next _ xs] [S k] = nth [xs] [k]
--- 
--- main : Maybe Int
--- main = nth [Next 1 (Next 2 (Next 3 (Next 4 Empty)))] [S (S Z)]
+main = nth [Next 1 (Next 2 (Next 3 (Next 4 Empty)))] [S (S Z)]

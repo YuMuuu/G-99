@@ -1,0 +1,41 @@
+-- UNRESOLVE!!!!
+
+import Bool
+import List
+
+reverse : forall {a : Type} . List (a [1]) -> List a
+reverse xs = 
+  case xs of
+    Empty       -> Empty;
+    (Next [x] xs) -> append_list (reverse xs) ((Next x Empty))
+
+copyListInt : List (Int [2]) -> (List (Int [0..1]), (List (Int [0..1])) [1])
+copyListInt xs =
+  case xs of
+    Empty ->
+      (Empty, [Empty]);
+    (Next [x] xs) ->
+      let (ys, [zs]) = copyListInt xs in
+      (Next [x] ys, [Next [x] zs])
+
+dropList : forall {a : Type} . List (a [0..1]) -> ()
+dropList xs =
+  case xs of
+    Empty         -> ();
+    (Next [_] xs) -> dropList xs       
+
+-- eqList : forall {a : Type} . (a -> a -> Bool) [] -> List (a [0..1]) -> List (a [0..1]) -> Bool
+-- の方がいいけど面倒なので今回は特殊化する
+
+eqListInt : List (Int [0..1]) -> List (Int [0..1]) -> Bool
+
+
+isPalindrome : List (Int [2]) -> Bool
+isPalindrome xs =
+  let (ys, zs) = copyListInt xs in
+  eqListInt ys (reverse (pushList zs))  
+
+main : Bool
+main =
+  isPalindrome
+    (Next [1] (Next [2] (Next [3] (Next [2] (Next [1] Empty)))))
