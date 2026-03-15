@@ -1,0 +1,52 @@
+import Bool
+import List
+import Prelude
+
+data Sym = SA | B | C | D | E
+-- Aコンストラクタは予約済みなのでSAにする
+
+eqSym : Sym -> Sym -> Bool
+eqSym x y =
+  case (x, y) of
+    (SA, SA) -> True;
+    (B,  B)  -> True;
+    (C,  C)  -> True;
+    (D,  D)  -> True;
+    (E,  E)  -> True;
+    _        -> False
+
+xs : List (Sym [1..∞])
+xs =
+  Next [SA]
+    (Next [SA]
+      (Next [SA]
+        (Next [SA]
+          (Next [B]
+            (Next [C]
+              (Next [C]
+                (Next [SA]
+                  (Next [SA]
+                    (Next [D]
+                      (Next [E]
+                        (Next [E]
+                          (Next [E]
+                            (Next [E] Empty)))))))))))))
+
+run : Sym [1..∞] -> List (Sym [1..∞]) -> List Sym
+run [h] tail =
+  case tail of
+    Empty -> Next h Empty;
+    (Next [x] xs) ->
+      case eqSym h x of
+        True  -> run [h] xs;
+        False -> Next h (run [x] xs)
+
+compress : List (Sym [1..∞]) -> List Sym
+compress xs =
+  case xs of
+    Empty -> Empty;
+    (Next [x] xs) -> run [x] xs
+
+main : List Sym
+main = compress xs
+-- => Next SA (Next B (Next C (Next SA (Next D (Next E Empty)))))
